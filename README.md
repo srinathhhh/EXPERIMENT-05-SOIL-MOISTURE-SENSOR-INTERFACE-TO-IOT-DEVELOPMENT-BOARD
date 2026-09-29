@@ -1,5 +1,9 @@
 # EXPERIMENT-05-SOIL-MOISTURE-SENSOR-INTERFACE-TO-IOT-DEVELOPMENT-BOARD
 
+## Name : SRINATH N
+## Reg No : 2305003009
+## Date :  19-08-2026
+
 ## Aim: 
 
 To Interface a Analog Input  (soil moisture sensor) to ARM IOT development board and write a  program to obtain  the data on the com port 
@@ -107,10 +111,61 @@ GND is the ground pin.
 
 
 ## STM 32 CUBE PROGRAM :
+```
+#include "main.h"
+#include "stdio.h"
+
+ADC_HandleTypeDef hadc;
+
+UART_HandleTypeDef huart2;
 
 
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC_Init(void);
+static void MX_USART2_UART_Init(void);
 
+ int __io_putchar(int ch)
+ {
+	 HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+	 return ch;
+ }
+
+ uint16_t readvalue;
+
+int main(void)
+{
+
+  HAL_Init();
+
+  
+  SystemClock_Config();
+
+  
+  MX_GPIO_Init();
+  MX_ADC_Init();
+  MX_USART2_UART_Init();
+  
+  while (1)
+  {
+	  HAL_ADC_Start(&hadc);
+	  HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+      readvalue = HAL_ADC_GetValue(&hadc);
+      printf("Read Analog value : %ld\n", readvalue);
+       HAL_Delay(1000);
+
+  }
+}
+
+```
 ## Output screen shots on serial monitor   :
+
+<img width="4032" height="2268" alt="WhatsApp Image 2026-08-24 at 11 35 19 AM" src="https://github.com/user-attachments/assets/fb49e14d-f434-4d0d-9c6f-1f7bc66a9b91" />
+
+
+<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/3b7d6e67-3f38-48e3-b04a-54ef72f91d02" />
+
+<img width="2212" height="1556" alt="Screenshot 2026-08-19 112027" src="https://github.com/user-attachments/assets/5ad6bf11-b748-4304-84ea-3e2442f47395" />
  
  
  
